@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 //reduxForm is very similar to connect helper
 import {Field, reduxForm} from 'redux-form';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+//To map an action creator we need connect helper
+import {createPost} from '../actions/index';
 
 class PostsNew extends Component {
     //field contains event handler to make sure Field is responsible for dealing with the text input
@@ -27,7 +31,8 @@ class PostsNew extends Component {
     }
 
     onSubmit = (values) => {
-        console.log(values);
+        //create a post request
+        this.props.createPost(values);
     };
 
     render() {
@@ -51,6 +56,7 @@ class PostsNew extends Component {
                     component={this.renderField}
                 />
                 <button type="submit" className="btn btn-primary">Submit</button>
+                <Link to="/" className="btn btn-danger">Cancel</Link>
             </form>
         );
     }
@@ -76,7 +82,11 @@ function validate(values) {
     return errors;
 }
 
+//Stack up multiple connect like helpers
+//Wiring up action creator with redux form
 export default reduxForm({
     validate,
     form: 'PostsNewForm'
-})(PostsNew);
+})(
+    connect(null, {createPost})(PostsNew)
+);
