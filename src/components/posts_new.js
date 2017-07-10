@@ -32,7 +32,10 @@ class PostsNew extends Component {
 
     onSubmit = (values) => {
         //create a post request
-        this.props.createPost(values);
+        this.props.createPost(values, () => {
+            //In the action creator add callback to the promise
+            this.props.history.push('/');
+        });
     };
 
     render() {

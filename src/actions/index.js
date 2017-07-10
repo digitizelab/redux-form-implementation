@@ -15,10 +15,12 @@ export function fetchPosts() {
     }
 }
 
-export function createPost(values) {
+export function createPost(values, callback) {
     //Before sending the post request an OPTIONS request will be sent
     //CORS security feature
-    const request = axios.post(`${ROOT_URL}/posts${API_KEY}`, values);
+    const request = axios.post(`${ROOT_URL}/posts${API_KEY}`, values)
+        //Promise to run callback after the request completes
+        .then(() => callback());
 
     return {
         type: CREATE_POST,
